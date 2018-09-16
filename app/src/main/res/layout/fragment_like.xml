@@ -1,0 +1,54 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.ekocaman.app.githubbrowser.ui.home.like.LikeViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/swipeRefreshLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:onRefreshListener="@{() -> viewModel.onRefresh()}"
+                app:refreshing="@{viewModel.isLoading}">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvRepository"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingTop="30dp"
+                    android:visibility="@{viewModel.isError ? View.GONE : View.VISIBLE}" />
+
+            </android.support.v4.widget.SwipeRefreshLayout>
+        </android.support.design.widget.CoordinatorLayout>
+
+        <include
+            layout="@layout/view_error"
+            app:callback="@{()->viewModel.onRefresh()}"
+            app:isError="@{viewModel.isError}"
+            app:message="@{@string/label_load_failed}"
+            app:paddingBottom="@{@dimen/ah_bottom_navigation_height}" />
+    </RelativeLayout>
+
+</layout>
+
+
+
+

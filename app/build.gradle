@@ -1,0 +1,121 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
+    defaultConfig {
+        applicationId "com.ekocaman.app.githubbrowser"
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        def versionMajor = 0
+        def versionMinor = 0
+        def versionPatch = 1
+        versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch * 1
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas".toString())
+            }
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+    buildTypes {
+        debug {
+            versionNameSuffix "-debug"
+            debuggable true
+            multiDexEnabled true
+            shrinkResources false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+        release {
+            debuggable false
+            multiDexEnabled true
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug//todo release signing
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.core:core-ktx:0.3'
+
+    // Support Library
+    implementation "com.android.support:appcompat-v7:$rootProject.support_lib_version"
+    implementation "com.android.support:design:$rootProject.support_lib_version"
+    implementation "com.android.support:support-v4:$rootProject.support_lib_version"
+    implementation "com.android.support:cardview-v7:$rootProject.support_lib_version"
+    implementation "com.android.support:recyclerview-v7:$rootProject.support_lib_version"
+    implementation "com.android.support:exifinterface:$rootProject.support_lib_version"
+    implementation "com.android.support:customtabs:$rootProject.support_lib_version"
+    implementation "com.android.support:support-annotations:$rootProject.support_lib_version"
+    implementation 'com.android.support:multidex:1.0.3'
+
+    // DI
+    def dagger_version = '2.16'
+    implementation "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
+    // Utility
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.14'
+
+    // Network
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+
+    // View
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
+
+    implementation 'com.github.jd-alexander:LikeButton:0.2.3'
+
+    // Debug
+    implementation 'com.jakewharton.timber:timber:4.6.1'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+
+    // Test
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:2.19.0'
+    testImplementation "org.robolectric:robolectric:3.8"
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:3.8.1'
+    testImplementation "android.arch.core:core-testing:1.1.1"
+
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+
+    implementation "android.arch.persistence.room:runtime:$rootProject.room_version"
+    kapt "android.arch.persistence.room:compiler:$rootProject.room_version"
+    implementation 'com.blankj:utilcode:1.16.0'
+    implementation "android.arch.persistence.room:rxjava2:$rootProject.room_version"
+
+
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    kapt 'com.github.bumptech.glide:compiler:4.7.1'
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
+    kapt "android.arch.lifecycle:compiler:1.1.1"
+    implementation 'jp.wasabeef:glide-transformations:3.3.0'
+
+    implementation "com.orhanobut:hawk:2.0.1"
+    implementation 'com.github.clans:fab:1.6.4'
+}
