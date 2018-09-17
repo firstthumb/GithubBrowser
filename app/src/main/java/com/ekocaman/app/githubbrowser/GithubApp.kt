@@ -5,12 +5,15 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import android.arch.lifecycle.ProcessLifecycleOwner
+import com.crashlytics.android.Crashlytics
 import com.ekocaman.app.githubbrowser.di.components.ApplicationComponent
 import com.ekocaman.app.githubbrowser.di.components.DaggerApplicationComponent
 import com.ekocaman.app.githubbrowser.util.LineNoDebugTree
 import com.orhanobut.hawk.Hawk
+import io.fabric.sdk.android.Fabric
 import io.reactivex.plugins.RxJavaPlugins
 import timber.log.Timber
+
 
 class GithubApp : Application(), LifecycleObserver {
 
@@ -31,6 +34,7 @@ class GithubApp : Application(), LifecycleObserver {
                 .application(this)
                 .build()
         Hawk.init(this).build()
+        Fabric.with(this, Crashlytics())
 
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }
