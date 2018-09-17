@@ -20,7 +20,7 @@ class DomainModule {
 
     @Provides
     @Singleton
-    fun provideGithubRepository(githubDataRepository: GithubDataRepository): GithubRepository{
+    fun provideGithubRepository(githubDataRepository: GithubDataRepository): GithubRepository {
         return githubDataRepository
     }
 }

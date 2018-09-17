@@ -13,9 +13,9 @@ class SearchRepositoryUseCase @Inject constructor(
 
     public override fun buildUseCaseFlowable(param: Param): Flowable<List<RepositoryModel>> {
         return githubRepository.searchRepositories(param.query)
-                .map {
-                    item -> item.map {
-                        i -> RepositoryModel(i)
+                .map { item ->
+                    item.map { i ->
+                        RepositoryModel(i)
                     }
                 }
     }

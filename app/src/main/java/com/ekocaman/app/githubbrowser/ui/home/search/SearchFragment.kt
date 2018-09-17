@@ -4,7 +4,6 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -28,9 +27,6 @@ class SearchFragment : BaseFragment() {
     lateinit var factory: ViewModelProvider.Factory
 
     @Inject
-    lateinit var activity: AppCompatActivity
-
-    @Inject
     lateinit var layoutManager: LinearLayoutManager
 
     @Inject
@@ -43,7 +39,9 @@ class SearchFragment : BaseFragment() {
         component.inject(this)
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         viewModel = ViewModelProviders.of(this, factory).get(SearchViewModel::class.java)
-        homeViewModel = ViewModelProviders.of(activity, factory).get(HomeViewModel::class.java)
+        activity?.let {
+            homeViewModel = ViewModelProviders.of(it, factory).get(HomeViewModel::class.java)
+        }
         binding.viewModel = viewModel
         return binding.root
     }
@@ -57,7 +55,7 @@ class SearchFragment : BaseFragment() {
         rvRepository.adapter = adapter
         viewModel.loadRepositories()
         viewModel.outcome.observe(this, Observer {
-            when(it) {
+            when (it) {
                 is Result.Success -> {
                     adapter?.submitList(it.data)
                 }

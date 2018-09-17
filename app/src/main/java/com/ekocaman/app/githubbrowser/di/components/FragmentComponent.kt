@@ -4,7 +4,6 @@ import com.ekocaman.app.githubbrowser.di.modules.FragmentModule
 import com.ekocaman.app.githubbrowser.di.scopes.FragmentScope
 import com.ekocaman.app.githubbrowser.ui.home.HomeFragment
 import com.ekocaman.app.githubbrowser.ui.home.like.LikeFragment
-import com.ekocaman.app.githubbrowser.ui.home.like.LikeFragment_MembersInjector
 import com.ekocaman.app.githubbrowser.ui.home.search.SearchFragment
 import dagger.Subcomponent
 

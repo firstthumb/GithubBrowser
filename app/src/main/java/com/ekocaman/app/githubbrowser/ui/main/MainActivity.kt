@@ -80,7 +80,7 @@ class MainActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         item?.let {
-            return when(it.itemId) {
+            return when (it.itemId) {
                 R.id.search -> true
                 else -> super.onOptionsItemSelected(item)
             }

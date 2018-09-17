@@ -9,7 +9,7 @@ import java.security.InvalidParameterException
 
 class HomePagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {
-        return when(position) {
+        return when (position) {
             0 -> SearchFragment.newInstance()
             1 -> LikeFragment.newInstance()
             else -> throw InvalidParameterException("Unknown PageViewer Index")
@@ -21,7 +21,7 @@ class HomePagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return when(position) {
+        return when (position) {
             0 -> "Search"
             1 -> "Liked"
             else -> throw InvalidParameterException("Unknown PageViewer Index")

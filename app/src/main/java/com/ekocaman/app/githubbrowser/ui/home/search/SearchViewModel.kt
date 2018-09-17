@@ -4,10 +4,8 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableBoolean
 import com.ekocaman.app.githubbrowser.domain.model.RepositoryModel
-import com.ekocaman.app.githubbrowser.domain.usecase.LikeRepositoryUseCase
 import com.ekocaman.app.githubbrowser.domain.usecase.SearchRepositoryUseCase
 import com.ekocaman.app.githubbrowser.domain.usecase.ToggleLikeRepositoryUseCase
-import com.ekocaman.app.githubbrowser.domain.usecase.UnlikeRepositoryUseCase
 import com.ekocaman.app.githubbrowser.ui.base.Result
 import com.ekocaman.app.githubbrowser.ui.common.LikeListener
 import com.ekocaman.app.githubbrowser.ui.common.RefreshListener

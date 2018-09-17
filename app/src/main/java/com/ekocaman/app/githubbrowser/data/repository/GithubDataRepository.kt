@@ -1,9 +1,9 @@
 package com.ekocaman.app.githubbrowser.data.repository
 
 import android.arch.persistence.room.EmptyResultSetException
+import com.ekocaman.app.githubbrowser.data.repository.datasource.local.GithubLocalDataSource
 import com.ekocaman.app.githubbrowser.data.repository.datasource.model.Repository
 import com.ekocaman.app.githubbrowser.data.repository.datasource.model.SearchRepository
-import com.ekocaman.app.githubbrowser.data.repository.datasource.local.GithubLocalDataSource
 import com.ekocaman.app.githubbrowser.data.repository.datasource.remote.GithubRemoteDataSource
 import com.ekocaman.app.githubbrowser.domain.repository.GithubRepository
 import io.reactivex.BackpressureStrategy
@@ -71,15 +71,15 @@ class GithubDataRepository @Inject constructor(
         return Single.create<Repository> {
             localDataSource.findLikedRepositoryById(repository.id)
                     .subscribe(
-                        {
-                            localDataSource.unlikeRepository(it)
-                        },
-                        {
-                            when(it) {
-                                is EmptyResultSetException -> localDataSource.likeRepository(repository)
-                                else -> Timber.e(it.localizedMessage)
+                            {
+                                localDataSource.unlikeRepository(it)
+                            },
+                            {
+                                when (it) {
+                                    is EmptyResultSetException -> localDataSource.likeRepository(repository)
+                                    else -> Timber.e(it.localizedMessage)
+                                }
                             }
-                        }
                     )
         }
     }

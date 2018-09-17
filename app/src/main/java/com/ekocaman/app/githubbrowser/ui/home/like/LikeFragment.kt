@@ -51,7 +51,7 @@ class LikeFragment : BaseFragment() {
 
         viewModel.loadLikedRepositories()
         viewModel.result.observe(this, Observer {
-            when(it) {
+            when (it) {
                 is Result.Success -> {
                     adapter?.submitList(it.data)
                 }

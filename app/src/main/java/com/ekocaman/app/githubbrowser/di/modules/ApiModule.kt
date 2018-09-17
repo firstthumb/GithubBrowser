@@ -19,10 +19,12 @@ class ApiModule {
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
         val client = OkHttpClient().newBuilder()
-        client.addInterceptor {
+        client.addInterceptor { it ->
             val original = it.request()
             val builder = original.newBuilder()
-            builder.addHeader("Authorization", "token TOKEN")
+            BuildConfig.GITHUB_API_KEY.let { key ->
+                builder.addHeader("Authorization", "token $key")
+            }
             val request = builder.method(original.method(), original.body())
                     .build()
             it.proceed(request)

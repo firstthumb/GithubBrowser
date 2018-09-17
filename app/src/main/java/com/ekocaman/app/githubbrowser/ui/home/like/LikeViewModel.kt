@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableBoolean
 import com.ekocaman.app.githubbrowser.domain.model.RepositoryModel
 import com.ekocaman.app.githubbrowser.domain.usecase.FetchLikedRepositoryUseCase
-import com.ekocaman.app.githubbrowser.domain.usecase.LikeRepositoryUseCase
 import com.ekocaman.app.githubbrowser.domain.usecase.UnlikeRepositoryUseCase
 import com.ekocaman.app.githubbrowser.ui.base.Result
 import com.ekocaman.app.githubbrowser.ui.common.LikeListener
@@ -16,7 +15,7 @@ import javax.inject.Inject
 
 class LikeViewModel @Inject constructor(
         private val fetchLikedRepositoryUseCase: FetchLikedRepositoryUseCase,
-        private val unlikeRepositoryUseCase: UnlikeRepositoryUseCase): ViewModel(), RefreshListener, LikeListener {
+        private val unlikeRepositoryUseCase: UnlikeRepositoryUseCase) : ViewModel(), RefreshListener, LikeListener {
     val isLoading = ObservableBoolean()
     val isError = ObservableBoolean()
 

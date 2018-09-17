@@ -1,9 +1,9 @@
 package com.ekocaman.app.githubbrowser.domain.usecase
 
+import com.ekocaman.app.githubbrowser.domain.SchedulerProvider
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
-import com.ekocaman.app.githubbrowser.domain.SchedulerProvider
 
 abstract class SequentialUseCase<in PARAM, RESPONSE> protected constructor(private val schedulerProvider: SchedulerProvider) {
     private val compositeDisposable = CompositeDisposable()

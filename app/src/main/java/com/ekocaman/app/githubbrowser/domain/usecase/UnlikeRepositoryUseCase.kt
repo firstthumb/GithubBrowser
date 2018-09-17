@@ -4,7 +4,6 @@ import com.ekocaman.app.githubbrowser.data.repository.datasource.model.Repositor
 import com.ekocaman.app.githubbrowser.domain.SchedulerProvider
 import com.ekocaman.app.githubbrowser.domain.model.RepositoryModel
 import com.ekocaman.app.githubbrowser.domain.repository.GithubRepository
-import io.reactivex.Flowable
 import io.reactivex.Single
 import javax.inject.Inject
 

@@ -43,7 +43,7 @@ class LikeRecyclerViewAdapter(
         binding.setVariable(BR.likeListener, likeListener)
 
         binding.root.like.isLiked = item.liked
-        binding.root.like.setOnLikeListener(object: OnLikeListener {
+        binding.root.like.setOnLikeListener(object : OnLikeListener {
             override fun liked(p0: LikeButton?) {
                 likeListener.onLikeClicked(item)
             }

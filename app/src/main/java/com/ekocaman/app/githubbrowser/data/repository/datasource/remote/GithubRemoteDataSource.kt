@@ -1,10 +1,10 @@
 package com.ekocaman.app.githubbrowser.data.repository.datasource.remote
 
 import com.ekocaman.app.githubbrowser.data.api.GithubApi
-import com.ekocaman.app.githubbrowser.data.repository.datasource.model.SearchRepository
 import com.ekocaman.app.githubbrowser.data.mapper.RepoMapper
 import com.ekocaman.app.githubbrowser.data.repository.datasource.GithubDataStore
 import com.ekocaman.app.githubbrowser.data.repository.datasource.model.Repository
+import com.ekocaman.app.githubbrowser.data.repository.datasource.model.SearchRepository
 import io.reactivex.Flowable
 import io.reactivex.Single
 import javax.inject.Inject

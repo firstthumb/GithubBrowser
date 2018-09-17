@@ -1,10 +1,10 @@
 package com.ekocaman.app.githubbrowser.data.mapper
 
 import com.ekocaman.app.githubbrowser.data.repository.datasource.local.entity.LikeRepositoryEntity
-import com.ekocaman.app.githubbrowser.data.repository.datasource.model.Repository
-import com.ekocaman.app.githubbrowser.data.repository.datasource.model.SearchRepository
 import com.ekocaman.app.githubbrowser.data.repository.datasource.local.entity.RepositoryEntity
 import com.ekocaman.app.githubbrowser.data.repository.datasource.local.entity.SearchRepositoryEntity
+import com.ekocaman.app.githubbrowser.data.repository.datasource.model.Repository
+import com.ekocaman.app.githubbrowser.data.repository.datasource.model.SearchRepository
 import com.ekocaman.app.githubbrowser.data.repository.datasource.remote.entity.SearchRepositoryResponse
 import javax.inject.Inject
 

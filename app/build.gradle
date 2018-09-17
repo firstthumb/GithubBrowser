@@ -3,6 +3,15 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+def apikeyPropertiesFile = rootProject.file("apikey.properties");
+def apikeyProperties = new Properties()
+apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
+
+def releasePropertiesFile = rootProject.file("signing.properties");
+def releaseProperties = new Properties()
+releaseProperties.load(new FileInputStream(releasePropertiesFile))
+
 android {
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion rootProject.buildToolsVersion
@@ -27,6 +36,14 @@ android {
     dataBinding {
         enabled = true
     }
+    signingConfigs {
+        release {
+            storeFile file(releaseProperties['STORE_FILE'])
+            storePassword releaseProperties['STORE_PASSWORD']
+            keyAlias releaseProperties['KEY_ALIAS']
+            keyPassword releaseProperties['KEY_PASSWORD']
+        }
+    }
     buildTypes {
         debug {
             versionNameSuffix "-debug"
@@ -36,6 +53,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
+            buildConfigField('String', 'GITHUB_API_KEY', apikeyProperties['GITHUB_API_KEY'])
         }
         release {
             debuggable false
@@ -43,7 +61,8 @@ android {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.debug//todo release signing
+            signingConfig signingConfigs.release
+            buildConfigField('String', 'GITHUB_API_KEY', apikeyProperties['GITHUB_API_KEY'])
         }
     }
 }

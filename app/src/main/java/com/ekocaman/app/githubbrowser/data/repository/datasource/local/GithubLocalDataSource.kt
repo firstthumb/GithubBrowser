@@ -1,10 +1,9 @@
 package com.ekocaman.app.githubbrowser.data.repository.datasource.local
 
-import com.ekocaman.app.githubbrowser.data.repository.datasource.model.SearchRepository
 import com.ekocaman.app.githubbrowser.data.mapper.RepoMapper
 import com.ekocaman.app.githubbrowser.data.repository.datasource.GithubDataStore
-import com.ekocaman.app.githubbrowser.data.repository.datasource.local.entity.LikeRepositoryEntity
 import com.ekocaman.app.githubbrowser.data.repository.datasource.model.Repository
+import com.ekocaman.app.githubbrowser.data.repository.datasource.model.SearchRepository
 import io.reactivex.Flowable
 import io.reactivex.Single
 import timber.log.Timber
@@ -36,8 +35,8 @@ class GithubLocalDataSource @Inject constructor(
 
     override fun getLikedRepositories(): Flowable<List<Repository>> {
         return likeRepositoryDao.all
-                .map {
-                    item -> item.map(mapper::transform)
+                .map { item ->
+                    item.map(mapper::transform)
                 }
     }
 

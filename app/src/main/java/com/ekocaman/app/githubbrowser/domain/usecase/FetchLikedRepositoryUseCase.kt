@@ -13,9 +13,9 @@ class FetchLikedRepositoryUseCase @Inject constructor(
 
     public override fun buildUseCaseFlowable(param: Param): Flowable<List<RepositoryModel>> {
         return githubRepository.getLikedRepositories()
-                .map {
-                    item -> item.map {
-                        i -> RepositoryModel(i)
+                .map { item ->
+                    item.map { i ->
+                        RepositoryModel(i)
                     }
                 }
     }
