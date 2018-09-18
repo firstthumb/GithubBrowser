@@ -72,3 +72,6 @@
 -dontwarn com.facebook.stetho.**
 
 -keep class com.uphyca.** { *; }
+
+-keep class android.support.** { *; }
+-keep interface android.support.** { *; }
