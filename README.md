@@ -1,4 +1,4 @@
-# Githu bBrowser
+# Github Browser
 
 Base Android Application in Kotlin with MVVM
 
