@@ -1,17 +1,13 @@
 package com.ekocaman.app.githubbrowser.di.modules
 
-import android.app.Application
 import android.content.Context
+import com.ekocaman.app.githubbrowser.GithubApp
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
-import javax.inject.Singleton
 
 @Module
-class ApplicationModule {
+abstract class ApplicationModule {
 
-    @Provides
-    @Singleton
-    fun provideContext(application: Application): Context {
-        return application.applicationContext
-    }
+    @Binds
+    abstract fun bindContext(application: GithubApp): Context
 }

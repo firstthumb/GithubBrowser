@@ -27,16 +27,12 @@ class SearchFragment : BaseFragment() {
     lateinit var factory: ViewModelProvider.Factory
 
     @Inject
-    lateinit var layoutManager: LinearLayoutManager
-
-    @Inject
     lateinit var appExecutors: AppExecutors
 
     private var adapter: SearchRecyclerViewAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        component.inject(this)
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         viewModel = ViewModelProviders.of(this, factory).get(SearchViewModel::class.java)
         activity?.let {
@@ -48,7 +44,7 @@ class SearchFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        rvRepository.layoutManager = layoutManager
+        rvRepository.layoutManager = LinearLayoutManager(context)
         if (adapter == null) {
             adapter = SearchRecyclerViewAdapter(appExecutors, viewModel)
         }

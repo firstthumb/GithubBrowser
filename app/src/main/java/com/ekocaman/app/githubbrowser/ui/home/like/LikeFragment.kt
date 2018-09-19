@@ -25,16 +25,12 @@ class LikeFragment : BaseFragment() {
     lateinit var factory: ViewModelProvider.Factory
 
     @Inject
-    lateinit var layoutManager: LinearLayoutManager
-
-    @Inject
     lateinit var appExecutors: AppExecutors
 
     private var adapter: LikeRecyclerViewAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        component.inject(this)
         binding = FragmentLikeBinding.inflate(inflater, container, false)
         viewModel = ViewModelProviders.of(this, factory).get(LikeViewModel::class.java)
         binding.viewModel = viewModel
@@ -43,7 +39,7 @@ class LikeFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        rvRepository.layoutManager = layoutManager
+        rvRepository.layoutManager = LinearLayoutManager(context)
         if (adapter == null) {
             adapter = LikeRecyclerViewAdapter(appExecutors, viewModel)
         }

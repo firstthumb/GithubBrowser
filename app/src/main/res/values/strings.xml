@@ -3,4 +3,8 @@
     <string name="label_load_failed">Fail to load</string>
     <string name="label_retry">Retry</string>
     <string name="search_title">Search</string>
+
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="default_notification_channel_name" translatable="true">Channel human readable title</string>
+    <string name="fcm_message">New Message</string>
 </resources>

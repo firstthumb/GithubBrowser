@@ -3,9 +3,8 @@ package com.ekocaman.app.githubbrowser.ui.helper
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import com.ekocaman.app.githubbrowser.R
-import javax.inject.Inject
 
-class FragmentHelper @Inject constructor(private val fragmentManager: FragmentManager) {
+class FragmentHelper(private val fragmentManager: FragmentManager?) {
 
     @JvmOverloads
     fun replaceFragment(
@@ -15,17 +14,19 @@ class FragmentHelper @Inject constructor(private val fragmentManager: FragmentMa
             customAnimations: Int = WITHOUT_ANIMATION
 
     ) {
-        val transaction = fragmentManager.beginTransaction()
-        if (customAnimations == IN_RIGHT_OUT_LEFT) {
-            transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
-        } else if (customAnimations == IN_LEFT_OUT_RIGHT) {
-            transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right)
+        fragmentManager?.let { fragmentManager ->
+            val transaction = fragmentManager.beginTransaction()
+            if (customAnimations == IN_RIGHT_OUT_LEFT) {
+                transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
+            } else if (customAnimations == IN_LEFT_OUT_RIGHT) {
+                transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right)
+            }
+            transaction.replace(containerId, fragment, fragment.javaClass.simpleName)
+            if (addToBackStack) {
+                transaction.addToBackStack(fragment.javaClass.simpleName)
+            }
+            transaction.commitAllowingStateLoss()
         }
-        transaction.replace(containerId, fragment, fragment.javaClass.simpleName)
-        if (addToBackStack) {
-            transaction.addToBackStack(fragment.javaClass.simpleName)
-        }
-        transaction.commitAllowingStateLoss()
     }
 
     companion object {

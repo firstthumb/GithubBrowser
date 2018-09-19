@@ -1,11 +1,7 @@
 package com.ekocaman.app.githubbrowser.ui.base
 
-import android.support.v4.app.Fragment
-import com.ekocaman.app.githubbrowser.di.modules.FragmentModule
+import dagger.android.support.DaggerFragment
 
-abstract class BaseFragment : Fragment() {
-    val component by lazy {
-        (activity as BaseActivity).component.plus(FragmentModule(this))
-    }
+abstract class BaseFragment : DaggerFragment() {
 
 }

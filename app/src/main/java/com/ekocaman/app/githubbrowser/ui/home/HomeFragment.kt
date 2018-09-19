@@ -24,12 +24,12 @@ class HomeFragment : BaseFragment() {
     lateinit var factory: ViewModelProvider.Factory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        component.inject(this)
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         activity?.let {
             viewModel = ViewModelProviders.of(it, factory).get(HomeViewModel::class.java)
         }
         binding.viewModel = viewModel
+        binding.viewModel = HomeViewModel()
         return binding.root
     }
 

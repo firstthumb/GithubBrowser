@@ -1,6 +1,5 @@
 package com.ekocaman.app.githubbrowser.di.modules
 
-import android.content.Context
 import com.ekocaman.app.githubbrowser.BuildConfig
 import com.ekocaman.app.githubbrowser.data.api.GithubApi
 import dagger.Module
@@ -40,7 +39,7 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun provideHomeApi(context: Context, client: OkHttpClient): GithubApi {
+    fun provideHomeApi(client: OkHttpClient): GithubApi {
         return createApiClient(GithubApi::class.java,
                 "https://api.github.com",
                 client)

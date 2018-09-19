@@ -1,41 +1,24 @@
 package com.ekocaman.app.githubbrowser.di.modules
 
-
-import android.app.Activity
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v7.widget.LinearLayoutManager
+import com.ekocaman.app.githubbrowser.di.scopes.FragmentScope
+import com.ekocaman.app.githubbrowser.ui.home.HomeFragment
+import com.ekocaman.app.githubbrowser.ui.home.like.LikeFragment
+import com.ekocaman.app.githubbrowser.ui.home.search.SearchFragment
 import dagger.Module
-import dagger.Provides
-import javax.inject.Named
+import dagger.android.ContributesAndroidInjector
 
 @Module
-class FragmentModule(private val fragment: Fragment) {
+abstract class FragmentModule {
 
-    @Provides
-    internal fun provideFragment(): Fragment {
-        return this.fragment
-    }
+    @ContributesAndroidInjector
+    @FragmentScope
+    abstract fun contributeHomeFragment(): HomeFragment
 
-    @Named("ChildFragmentManager")
-    @Provides
-    internal fun provideChildFragmentManager(): FragmentManager {
-        return fragment.childFragmentManager
-    }
+    @ContributesAndroidInjector
+    @FragmentScope
+    abstract fun contributeSearchFragment(): SearchFragment
 
-    @Named("FragmentManager")
-    @Provides
-    internal fun provideFragmentManager(): FragmentManager? {
-        return fragment.fragmentManager
-    }
-
-    @Provides
-    internal fun provideLinearLayoutManager(fragment: Fragment): LinearLayoutManager {
-        return LinearLayoutManager(fragment.activity)
-    }
-
-    @Provides
-    internal fun provideActivity(): Activity? {
-        return this.fragment.activity
-    }
+    @ContributesAndroidInjector
+    @FragmentScope
+    abstract fun contributeLikeFragment(): LikeFragment
 }
