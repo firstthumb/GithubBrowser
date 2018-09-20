@@ -15,7 +15,8 @@ class FirebaseModule {
     internal fun provideFirebaseDatabase(): FirebaseFirestore {
         val firebaseFirestore: FirebaseFirestore = FirebaseFirestore.getInstance()
         val settings: FirebaseFirestoreSettings = FirebaseFirestoreSettings.Builder()
-                .setPersistenceEnabled(false)
+                .setPersistenceEnabled(true)
+                .setTimestampsInSnapshotsEnabled(true)
                 .build()
         firebaseFirestore.firestoreSettings = settings;
         return firebaseFirestore

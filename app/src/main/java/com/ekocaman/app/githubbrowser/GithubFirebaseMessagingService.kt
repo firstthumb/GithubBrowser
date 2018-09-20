@@ -9,11 +9,10 @@ import android.media.RingtoneManager
 import android.os.Build
 import android.support.v4.app.NotificationCompat
 import com.ekocaman.app.githubbrowser.domain.job.GithubRefreshJobService
+import com.ekocaman.app.githubbrowser.domain.service.FirebaseService
 import com.ekocaman.app.githubbrowser.ui.main.MainActivity
 import com.firebase.jobdispatcher.FirebaseJobDispatcher
 import com.firebase.jobdispatcher.GooglePlayDriver
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import dagger.android.AndroidInjection
@@ -24,10 +23,7 @@ import javax.inject.Inject
 class GithubFirebaseMessagingService : FirebaseMessagingService() {
 
     @Inject
-    internal lateinit var firestore: FirebaseFirestore
-
-    @Inject
-    internal lateinit var firebaseAuth: FirebaseAuth
+    internal lateinit var firebaseService: FirebaseService
 
     override fun onCreate() {
         super.onCreate()
@@ -130,22 +126,7 @@ class GithubFirebaseMessagingService : FirebaseMessagingService() {
      */
     private fun sendRegistrationToServer(token: String?) {
         Timber.v("FCM Token : $token")
-        val uid = "123"
-        firebaseAuth.currentUser?.let { fbUser ->
-            firestore.collection("User").document(uid).get()
-                    .addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            val document = it.result
-                            if (document.exists()) {
-                                document.data?.let { it.put("fmcTokens", token) }
-                            } else {
-                                val map = mutableMapOf<String, Any?>()
-                                map.put("fmcTokens", token)
-                                firestore.collection("User").document(uid).set(map)
-                            }
-                        }
-                    }
-        }
+        firebaseService.saveFirebaseMessagingToken(token)
     }
 
     private fun sendNotification(messageBody: String) {
