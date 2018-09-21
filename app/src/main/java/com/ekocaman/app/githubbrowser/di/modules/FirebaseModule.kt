@@ -1,5 +1,8 @@
 package com.ekocaman.app.githubbrowser.di.modules
 
+import android.content.Context
+import com.firebase.jobdispatcher.FirebaseJobDispatcher
+import com.firebase.jobdispatcher.GooglePlayDriver
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
@@ -25,6 +28,12 @@ class FirebaseModule {
     @Provides
     @Singleton
     internal fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
+
+    @Provides
+    @Singleton
+    internal fun provideFirebaseJobDispatcher(context: Context) : FirebaseJobDispatcher {
+        return FirebaseJobDispatcher(GooglePlayDriver(context))
+    }
 
 //    @Provides
 //    internal fun provideFirebaseStorage(): FirebaseStorage = FirebaseStorage.getInstance()
