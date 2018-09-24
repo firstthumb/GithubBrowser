@@ -75,3 +75,6 @@
 
 -keep class android.support.** { *; }
 -keep interface android.support.** { *; }
+
+# Keep custom model classes
+-keep class com.ekocaman.app.githubbrowser.domain.model.** { *; }

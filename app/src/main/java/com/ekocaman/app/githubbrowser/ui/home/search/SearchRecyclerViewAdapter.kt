@@ -40,7 +40,6 @@ class SearchRecyclerViewAdapter(
 
     override fun bind(binding: ViewDataBinding, item: RepositoryModel) {
         binding.setVariable(BR.repositoryModel, item)
-        binding.setVariable(BR.likeListener, likeListener)
 
         binding.root.like.isLiked = item.liked
         binding.root.like.setOnLikeListener(object : OnLikeListener {

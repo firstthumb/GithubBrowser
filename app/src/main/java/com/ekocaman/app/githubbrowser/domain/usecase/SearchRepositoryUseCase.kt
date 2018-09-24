@@ -20,5 +20,9 @@ class SearchRepositoryUseCase @Inject constructor(
                 }
     }
 
-    class Param(val query: String)
+    class Param(val query: String) {
+        override fun toString(): String {
+            return "Param(query='$query')"
+        }
+    }
 }

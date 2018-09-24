@@ -18,6 +18,7 @@ import com.ekocaman.app.githubbrowser.ui.helper.FragmentHelper
 import com.ekocaman.app.githubbrowser.ui.helper.Navigator
 import com.ekocaman.app.githubbrowser.ui.home.HomeFragment
 import com.ekocaman.app.githubbrowser.ui.home.HomeViewModel
+import com.google.firebase.messaging.FirebaseMessaging
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import kotlinx.android.synthetic.main.activity_main.*

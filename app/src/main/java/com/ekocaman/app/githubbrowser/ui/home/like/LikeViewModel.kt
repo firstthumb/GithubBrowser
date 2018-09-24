@@ -7,6 +7,7 @@ import com.ekocaman.app.githubbrowser.domain.job.GithubRefreshJobService
 import com.ekocaman.app.githubbrowser.domain.model.RepositoryModel
 import com.ekocaman.app.githubbrowser.domain.usecase.FetchLikedRepositoryUseCase
 import com.ekocaman.app.githubbrowser.domain.usecase.UnlikeRepositoryUseCase
+import com.ekocaman.app.githubbrowser.ui.base.BaseViewModel
 import com.ekocaman.app.githubbrowser.ui.base.Result
 import com.ekocaman.app.githubbrowser.ui.common.LikeListener
 import com.ekocaman.app.githubbrowser.ui.common.RefreshListener
@@ -19,15 +20,13 @@ import javax.inject.Inject
 class LikeViewModel @Inject constructor(
         private val dispatcher: FirebaseJobDispatcher,
         private val fetchLikedRepositoryUseCase: FetchLikedRepositoryUseCase,
-        private val unlikeRepositoryUseCase: UnlikeRepositoryUseCase) : ViewModel(), RefreshListener, LikeListener {
+        private val unlikeRepositoryUseCase: UnlikeRepositoryUseCase) : BaseViewModel(), RefreshListener, LikeListener {
     val isLoading = ObservableBoolean()
     val isError = ObservableBoolean()
 
     val result: MutableLiveData<Result<List<RepositoryModel>>> = MutableLiveData()
 
-    fun loadLikedRepositories() {
-        isLoading.set(true)
-        result.value = Result.loading(true)
+    init {
         fetchLikedRepositoryUseCase.execute(
                 Consumer {
                     this.isLoading.set(false)
@@ -40,13 +39,19 @@ class LikeViewModel @Inject constructor(
                     this.isLoading.set(false)
                     this.isError.set(true)
                     result.value = Result.failure(it)
-                },
-                FetchLikedRepositoryUseCase.Param()
+                }
         )
+        addDisposable(fetchLikedRepositoryUseCase)
+    }
+
+    fun loadLikedRepositories() {
+        isLoading.set(true)
+        result.value = Result.loading(true)
+        fetchLikedRepositoryUseCase.sendEvent(FetchLikedRepositoryUseCase.Param())
     }
 
     override fun onRefresh() {
-        loadLikedRepositories()
+        // TODO: Implement Me
     }
 
     override fun onLikeClicked(model: RepositoryModel) {
@@ -60,14 +65,10 @@ class LikeViewModel @Inject constructor(
                 },
                 UnlikeRepositoryUseCase.Param(model)
         )
+        addDisposable(unlikeRepositoryUseCase)
 
         // TODO: Replace with RxJava
         createSyncDataJob()
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        fetchLikedRepositoryUseCase.dispose()
     }
 
     private fun createSyncDataJob() {
