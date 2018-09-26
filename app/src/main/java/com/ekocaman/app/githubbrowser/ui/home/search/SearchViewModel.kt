@@ -39,7 +39,7 @@ class SearchViewModel @Inject constructor(
         addDisposable(searchRepositoryUseCase)
     }
 
-    fun loadRepositories(query: String = "arama") {
+    fun loadRepositories(query: String = "elixir") {
         isLoading.set(true)
         outcome.value = Result.loading(true)
         searchRepositoryUseCase.sendEvent(SearchRepositoryUseCase.Param(query))

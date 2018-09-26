@@ -8,10 +8,13 @@ def apikeyPropertiesFile = rootProject.file("apikey.properties");
 def apikeyProperties = new Properties()
 apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
 
-
 def releasePropertiesFile = rootProject.file("signing.properties");
 def releaseProperties = new Properties()
 releaseProperties.load(new FileInputStream(releasePropertiesFile))
+
+def admobPropertiesFile = rootProject.file("admob.properties");
+def admobProperties = new Properties()
+admobProperties.load(new FileInputStream(admobPropertiesFile))
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -22,7 +25,7 @@ android {
         targetSdkVersion rootProject.targetSdkVersion
         def versionMajor = 0
         def versionMinor = 0
-        def versionPatch = 1
+        def versionPatch = 3
         versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch * 1
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
         vectorDrawables.useSupportLibrary = true
@@ -55,6 +58,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
             buildConfigField('String', 'GITHUB_API_KEY', apikeyProperties['GITHUB_API_KEY'])
+            buildConfigField('String', 'ADMOB_APP_ID', admobProperties['APP_ID'])
+            buildConfigField('String', 'ADMOB_AD_UNIT_ID', admobProperties['AD_UNIT_ID'])
         }
         release {
             debuggable false
@@ -64,6 +69,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
             buildConfigField('String', 'GITHUB_API_KEY', apikeyProperties['GITHUB_API_KEY'])
+            buildConfigField('String', 'ADMOB_APP_ID', admobProperties['APP_ID'])
+            buildConfigField('String', 'ADMOB_AD_UNIT_ID', admobProperties['AD_UNIT_ID'])
         }
     }
 }
@@ -151,6 +158,8 @@ dependencies {
     implementation 'com.firebase:firebase-jobdispatcher:0.8.5'
     implementation 'com.google.firebase:firebase-auth:16.0.3'
     implementation 'com.google.firebase:firebase-firestore:17.1.0'
+    implementation 'com.google.firebase:firebase-ads:15.0.1'
+
 
 }
 

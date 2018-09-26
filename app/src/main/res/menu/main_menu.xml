@@ -8,4 +8,16 @@
         android:orderInCategory="1"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="collapseActionView|ifRoom" />
+
+    <item android:id="@+id/action_settings"
+        android:title="@string/settings_title"
+        android:icon="@drawable/ic_search_black"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/action_support"
+        android:title="@string/support_title"
+        android:icon="@drawable/ic_help_outline_black_24dp"
+        android:orderInCategory="101"
+        app:showAsAction="never" />
 </menu>

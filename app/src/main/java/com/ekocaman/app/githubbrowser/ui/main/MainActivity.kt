@@ -1,12 +1,16 @@
 package com.ekocaman.app.githubbrowser.ui.main
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.databinding.DataBindingUtil
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
@@ -18,7 +22,9 @@ import com.ekocaman.app.githubbrowser.ui.helper.FragmentHelper
 import com.ekocaman.app.githubbrowser.ui.helper.Navigator
 import com.ekocaman.app.githubbrowser.ui.home.HomeFragment
 import com.ekocaman.app.githubbrowser.ui.home.HomeViewModel
-import com.google.firebase.messaging.FirebaseMessaging
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
+import com.google.firebase.analytics.FirebaseAnalytics
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import kotlinx.android.synthetic.main.activity_main.*
@@ -42,6 +48,12 @@ class MainActivity : BaseActivity() {
     @Inject
     lateinit var firebaseService: FirebaseService
 
+    @Inject
+    lateinit var interstitialAd: InterstitialAd
+
+    @Inject
+    lateinit var analytics: FirebaseAnalytics
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -62,6 +74,9 @@ class MainActivity : BaseActivity() {
         }
 
         firebaseService.login()
+
+        // TODO: Add proper request
+        interstitialAd.loadAd(AdRequest.Builder().build())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -85,11 +100,14 @@ class MainActivity : BaseActivity() {
                 .debounce(250, TimeUnit.MILLISECONDS)
                 .distinct()
                 .filter { text -> text.isNotBlank() }
-                .filter { text -> text.length > 3 }
+                .filter { text -> text.length > 2 }
                 .subscribe { text ->
                     Timber.v("Search Text : $text")
                     viewModel.search.postValue(text)
 
+                    val bundle = Bundle()
+                    bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, text)
+                    analytics.logEvent(FirebaseAnalytics.Event.SEARCH, bundle)
                 }
 
         return true
@@ -99,10 +117,42 @@ class MainActivity : BaseActivity() {
         item?.let {
             return when (it.itemId) {
                 R.id.search -> true
+                R.id.action_settings -> {
+                    showNotificationSettings()
+                    return true
+                }
+                R.id.action_support -> {
+                    if (interstitialAd.isLoaded) {
+                        interstitialAd.show()
+                    } else {
+                        Timber.v("Ads not loaded yet")
+                    }
+                    return true
+                }
                 else -> super.onOptionsItemSelected(item)
             }
         }
-
         return super.onOptionsItemSelected(item)
+    }
+
+    @SuppressLint("ObsoleteSdkInt")
+    private fun showNotificationSettings() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        intent.putExtra("app_uid", applicationInfo.uid)
+        intent.putExtra("android.provider.extra.APP_PACKAGE", packageName)
+        intent.putExtra("app_package", packageName)
+        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
+        } else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
+        } else {
+            intent.addCategory(Intent.CATEGORY_DEFAULT)
+            intent.data = Uri.parse("package: $packageName")
+        }
+        startActivity(intent)
+
+        val bundle = Bundle()
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "ads")
+        analytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, bundle)
     }
 }
